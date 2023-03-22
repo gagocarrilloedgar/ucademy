@@ -15,4 +15,9 @@ describe('StudentsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should return an array of students', async () => {
+    const students = await service.findAll();
+    expect(students).toBeInstanceOf(Array);
+  });
 });

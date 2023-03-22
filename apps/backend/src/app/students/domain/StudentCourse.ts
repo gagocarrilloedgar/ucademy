@@ -1,7 +1,3 @@
-import { Uuid } from '../../shared';
-
-export class StudenCourseId extends Uuid {}
-
 export interface StudenCoursePrimitives {
   id: string;
   title: string;
@@ -11,14 +7,14 @@ export interface StudenCoursePrimitives {
 }
 
 export class StudentCourse {
-  private readonly id: StudenCourseId;
+  private readonly id: string;
   private readonly title: string;
   private readonly description: string;
   private readonly percentCompleted: number;
   private readonly inscriptionDate: Date;
 
   constructor(
-    id: StudenCourseId,
+    id: string,
     title: string,
     description: string,
     percentCompleted: number,
@@ -33,7 +29,7 @@ export class StudentCourse {
 
   static fromPrimitives(primitives: StudenCoursePrimitives) {
     return new StudentCourse(
-      new StudenCourseId(primitives.id),
+      primitives.id,
       primitives.title,
       primitives.description,
       primitives.percentCompleted,
@@ -43,7 +39,7 @@ export class StudentCourse {
 
   toPrimitives(): StudenCoursePrimitives {
     return {
-      id: this.id.value,
+      id: this.id,
       title: this.title,
       description: this.description,
       percentCompleted: this.percentCompleted,

@@ -1,5 +1,4 @@
 import { StudenCoursePrimitives, StudentCourse } from './StudentCourse';
-import { StudentUuid } from './StudentUuid';
 
 export interface StudentPrimitives {
   id: string;
@@ -15,7 +14,7 @@ export interface StudentPrimitives {
 }
 
 export class Student {
-  id: StudentUuid;
+  id: string;
   isOnline: boolean;
   name: string;
   avatar: string;
@@ -27,7 +26,7 @@ export class Student {
   courses: Array<StudentCourse>;
 
   constructor(
-    id: StudentUuid,
+    id: string,
     isOnline: boolean,
     name: string,
     avatar: string,
@@ -52,7 +51,7 @@ export class Student {
 
   static fromPrimitives(primitives: StudentPrimitives) {
     return new Student(
-      new StudentUuid(primitives.id),
+      primitives.id,
       primitives.isOnline,
       primitives.name,
       primitives.avatar,
@@ -65,4 +64,18 @@ export class Student {
     );
   }
 
+  toPrimitives(): StudentPrimitives {
+    return {
+      id: this.id,
+      isOnline: this.isOnline,
+      name: this.name,
+      avatar: this.avatar,
+      lastName: this.lastName,
+      username: this.username,
+      email: this.email,
+      phone: this.phone,
+      inscriptionDate: this.inscriptionDate,
+      courses: this.courses.map((course) => course.toPrimitives()),
+    };
+  }
 }

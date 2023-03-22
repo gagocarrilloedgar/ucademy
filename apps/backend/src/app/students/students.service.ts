@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
+
+import { StudentsFinder } from './application/StudentsFinder';
+import { StudentPrimitives } from './domain/Student';
+import { StudentJsonRepository } from './infrastructure/StudentJsonRepository';
 
 @Injectable()
 export class StudentsService {
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+  private readonly repository: StudentJsonRepository =
+    new StudentJsonRepository();
+
+  private readonly find = new StudentsFinder(this.repository);
+
+  create(newStudent: StudentPrimitives) {
+    return console.log(newStudent);
   }
 
   findAll() {
-    return `This action returns all students`;
+    return this.find.run();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  findOne(id: string) {
+    return this.find.run(id);
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  update(id: string, updateStudentDto: Partial<StudentPrimitives>) {
+    return console.log({ id, updateStudentDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  remove(id: string) {
+    return console.log(id);
   }
 }
