@@ -6,7 +6,9 @@
     "start:frontend": "nx serve frontend",
     "start:backend": "nx serve backend",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "test:frontend": "nx test frontend",
+    "test:backend": "nx test backend"
   },
   "private": true,
   "dependencies": {

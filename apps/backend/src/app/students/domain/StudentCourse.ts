@@ -32,8 +32,8 @@ export class StudentCourse {
       primitives.id,
       primitives.title,
       primitives.description,
-      primitives.percentCompleted,
-      primitives.inscriptionDate
+      Number(primitives.percentCompleted),
+      new Date(primitives.inscriptionDate)
     );
   }
 

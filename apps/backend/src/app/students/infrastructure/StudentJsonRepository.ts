@@ -4,6 +4,7 @@ import { AppError } from '../../shared';
 import { JsonDbRepositoryFactory } from '../../shared/infrastructure/persistence/JsonDbRepositoryFactory';
 import { StudentRepository } from '../domain/StudenRepository';
 import { Student, StudentPrimitives } from '../domain/Student';
+import { StudenCoursePrimitives } from '../domain/StudentCourse';
 
 export class StudentJsonRepository implements StudentRepository {
   private readonly db: JsonDB;
@@ -32,9 +33,17 @@ export class StudentJsonRepository implements StudentRepository {
     }
 
     const studentConverted = student[0] as StudentPrimitives & { _id: string };
+
     delete studentConverted._id;
 
-    return Student.fromPrimitives({ ...studentConverted, id });
+    return Student.fromPrimitives({
+      ...studentConverted,
+      id,
+      courses: studentConverted.courses.map(
+        (course: StudenCoursePrimitives & { _id: string }) =>
+          this.convertCourse(course)
+      ),
+    });
   }
 
   async searchAll(): Promise<Student[]> {
@@ -42,7 +51,24 @@ export class StudentJsonRepository implements StudentRepository {
     return students
       .slice(0, 10)
       .map((student: StudentPrimitives & { _id: string }) =>
-        Student.fromPrimitives({ ...student, id: student._id })
+        Student.fromPrimitives({
+          ...student,
+          id: student._id,
+          courses: student.courses.map(
+            (course: StudenCoursePrimitives & { _id: string }) =>
+              this.convertCourse(course)
+          ),
+        })
       );
+  }
+
+  private convertCourse(course: StudenCoursePrimitives & { _id: string }) {
+    const newCourse = {
+      ...course,
+      id: course._id,
+    };
+
+    delete newCourse._id;
+    return newCourse;
   }
 }

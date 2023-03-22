@@ -5,8 +5,13 @@
     "rootDir": ".",
     "module": "commonjs",
     "target": "es5",
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
+    "resolveJsonModule": true,
     "importHelpers": false
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts"
+  ]
 }

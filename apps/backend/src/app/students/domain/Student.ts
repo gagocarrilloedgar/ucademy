@@ -59,7 +59,7 @@ export class Student {
       primitives.username,
       primitives.email,
       primitives.phone,
-      primitives.inscriptionDate,
+      new Date(primitives.inscriptionDate),
       primitives.courses.map((course) => StudentCourse.fromPrimitives(course))
     );
   }
